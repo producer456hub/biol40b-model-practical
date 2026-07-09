@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BIOL 40B — Model Practical Trainer</title>
+<meta name="description" content="Practice model practical for BIOL 40B: identify the numbered structures on the neuron, brain, eye, ear, and cochlea models — name and function.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <span class="kicker">BIOL 40B · Lab Models</span>
+      <h1>Model Practical — Trainer</h1>
+    </div>
+    <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle theme">◐</button>
+  </header>
+
+  <!-- START -->
+  <section id="start" class="card pad">
+    <p class="hero-note">The numbered lab models, exactly as they're tagged on the exam. You're shown a model with
+      numbers on it and, for each one, you type <b>both its name and its function</b> — just like the real practical.
+      Names must be spelled correctly (you'll get a hint if you're close); functions are checked loosely and the
+      answer is always shown so you can learn it. Miss anything and it comes back until you've cleared it all.</p>
+
+    <div class="speclist" id="speclist"></div>
+
+    <div class="opts" id="opts"></div>
+
+    <div class="spellnote"><span>📝</span><span><b>Two answers per structure.</b> The <b>name</b> is graded strictly on
+      spelling. The <b>function</b> just needs a real attempt — the model answer appears every time so you can check
+      yourself.</span></div>
+
+    <button class="btn btn-primary btn-block" id="startBtn" style="margin-top:18px">Start practical</button>
+  </section>
+
+  <!-- EXAM -->
+  <section id="exam" class="hidden">
+    <div class="status">
+      <div class="stat"><span class="k">Round</span><span class="v" id="s-round">1</span></div>
+      <div class="stat"><span class="k">Remaining</span><span class="v" id="s-left">0</span></div>
+      <div class="stat"><span class="k">To review</span><span class="v" id="s-retry">0</span></div>
+      <div class="stat"><span class="k">Names 1st try</span><span class="v acc" id="s-acc">—</span></div>
+    </div>
+    <div class="progress"><i id="bar" style="width:0%"></i></div>
+
+    <div class="banner" id="banner"></div>
+
+    <div class="card pad">
+      <div class="qtag"><span class="badge" id="q-badge">#1</span><span class="model" id="q-model">Model</span></div>
+      <h2 class="qprompt" id="q-prompt">—</h2>
+
+      <div class="field" id="field">
+        <img id="q-img" alt="lab model">
+        <span class="zoomhint">tap to zoom</span>
+      </div>
+
+      <form class="answer" id="answer" autocomplete="off">
+        <div class="f-row">
+          <label for="in-name">Name <span class="tag strict">spelling counts</span></label>
+          <input type="text" id="in-name" placeholder="Structure name…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="f-row">
+          <label for="in-func">Function <span class="tag">any reasonable attempt</span></label>
+          <input type="text" id="in-func" placeholder="What does it do?…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go">
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="submit-row">
+          <button class="btn btn-primary" id="submit" type="submit">Check</button>
+          <button class="btn btn-primary hidden" id="next" type="button">Next →</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="btnrow">
+      <button class="btn btn-ghost" id="quit">End &amp; restart</button>
+    </div>
+  </section>
+
+  <!-- DONE -->
+  <section id="done" class="hidden">
+    <div class="card done">
+      <div class="big">✓</div>
+      <h2 id="done-h">Every structure cleared</h2>
+      <p id="done-p">You identified every numbered structure — name and function.</p>
+      <div class="scoreline">
+        <div class="s"><span class="k">Structures</span><span class="v" id="d-items">0</span></div>
+        <div class="s"><span class="k">Names 1st try</span><span class="v" id="d-first">0</span></div>
+        <div class="s"><span class="k">Rounds</span><span class="v" id="d-rounds">0</span></div>
+      </div>
+      <div class="btnrow" style="justify-content:center">
+        <button class="btn btn-primary" id="again">Take it again</button>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Study aid · not for distribution · model photos from class answer keys</p>
+</div>
+
+<div class="lightbox" id="lightbox"><img id="lb-img" alt="model enlarged"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
