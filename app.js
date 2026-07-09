@@ -64,6 +64,27 @@
   let pool=[], idx=0, retry=[], round=1, totalItems=0, firstTry=0, answeredFirst=new Set();
   let curKey="", hintedName=false, locked=false;
   const keyOf = q => q.modelId + "#" + q.n;
+  const rotBy = {};   // user rotation per image (0/90/180/270), persists across that model's questions
+
+  // fit the (possibly rotated) image inside the field without overflow
+  function fitField(){
+    const q=pool[idx]; if(!q) return;
+    const img=$("q-img"), field=$("field");
+    const W=img.naturalWidth, H=img.naturalHeight; if(!W||!H) return;
+    const rot=((rotBy[q.image]||0)%360+360)%360;
+    if(rot%180===0){
+      field.style.height=""; img.style.position=""; img.style.left=""; img.style.top="";
+      img.style.width="100%"; img.style.height="auto"; img.style.transformOrigin="";
+      img.style.transform = rot ? `rotate(${rot}deg)` : "";
+    } else {
+      const fw=field.clientWidth||600;
+      const w0=Math.min(fw, fw*W/H);           // pre-rotate rendered width so the 90° bbox fits
+      field.style.height=w0+"px";              // rotated visual height = pre-rotate width
+      img.style.position="absolute"; img.style.left="50%"; img.style.top="50%";
+      img.style.width=w0+"px"; img.style.height="auto"; img.style.transformOrigin="center";
+      img.style.transform=`translate(-50%,-50%) rotate(${rot}deg)`;
+    }
+  }
 
   function show(which){ for(const id of ["start","exam","done"]) $(id).classList.toggle("hidden", id!==which); }
   function banner(html){ $("banner").innerHTML = html; }
@@ -83,7 +104,7 @@
     $("q-badge").textContent = "#"+q.n;
     $("q-model").textContent = q.model;
     $("q-prompt").innerHTML = `On the <span class="hl">${q.model}</span>, identify structure <span class="hl">#${q.n}</span> — its name and its function.`;
-    $("q-img").src = q.image;
+    const img=$("q-img"); img.onload = fitField; img.src = q.image; setTimeout(fitField, 0);
 
     const nm=$("in-name"), fn=$("in-func");
     nm.value=""; fn.value=""; nm.className=""; fn.className=""; nm.disabled=false; fn.disabled=false;
@@ -167,8 +188,25 @@
     $("d-items").textContent=totalItems; $("d-first").textContent=firstTry; $("d-rounds").textContent=round;
   }
 
+  /* ---------- rotate control ---------- */
+  $("rotate").onclick = (e) => {
+    e.stopPropagation();
+    const q=pool[idx]; if(!q) return;
+    rotBy[q.image] = ((rotBy[q.image]||0)+90)%360;
+    fitField();
+  };
+  addEventListener("resize", () => { if(!$("exam").classList.contains("hidden")) fitField(); });
+
   /* ---------- lightbox ---------- */
-  $("field").onclick = () => { const q=pool[idx]; if(!q) return; $("lb-img").src=q.image; $("lightbox").classList.add("on"); };
+  $("field").onclick = () => {
+    const q=pool[idx]; if(!q) return;
+    const lbi=$("lb-img"); lbi.src=q.image;
+    const rot=((rotBy[q.image]||0)%360+360)%360;
+    lbi.style.transform = rot ? `rotate(${rot}deg)` : "";
+    if(rot%180){ lbi.style.maxWidth="94vh"; lbi.style.maxHeight="94vw"; }
+    else { lbi.style.maxWidth="100%"; lbi.style.maxHeight="94vh"; }
+    $("lightbox").classList.add("on");
+  };
   $("lightbox").onclick = () => $("lightbox").classList.remove("on");
 
   /* ---------- wire ---------- */

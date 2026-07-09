@@ -92,6 +92,9 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 .field{position:relative;border-radius:12px;overflow:hidden;background:#0c0e16;border:1px solid var(--line);cursor:zoom-in}
 .field img{display:block;width:100%;height:auto;user-select:none}
 .zoomhint{position:absolute;right:8px;bottom:8px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:#fff;background:rgba(0,0,0,.55);padding:3px 7px;border-radius:6px;pointer-events:none;text-transform:uppercase}
+.rotate-btn{position:absolute;top:8px;right:8px;z-index:4;width:36px;height:36px;border-radius:9px;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.55);color:#fff;cursor:pointer;font-size:19px;line-height:1;display:grid;place-items:center;transition:.15s}
+.rotate-btn:hover{background:rgba(0,0,0,.8)}
+.rotate-btn:active{transform:rotate(90deg)}
 
 .answer{margin-top:18px;display:flex;flex-direction:column;gap:12px}
 .f-row{display:flex;flex-direction:column;gap:5px}
