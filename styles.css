@@ -79,8 +79,9 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 .stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
 .stat .v{font-family:var(--mono);font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
 .stat .v.acc{color:var(--accent)}
-.progress{height:4px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-bottom:16px}
+.progress{height:4px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-bottom:6px}
 .progress i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .35s ease}
+.progress-cap{margin-bottom:16px;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted,#8a8a8a);font-weight:600}
 
 .qtag{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .qtag .model{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}

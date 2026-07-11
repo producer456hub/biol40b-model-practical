@@ -62,6 +62,7 @@
 
   /* ---------- state ---------- */
   let pool=[], idx=0, retry=[], round=1, totalItems=0, firstTry=0, answeredFirst=new Set();
+  let missed=[], missedKeys=new Set(), doneMissed=[];
   let curKey="", hintedName=false, locked=false;
   const keyOf = q => q.modelId + "#" + q.n;
   const rotBy = {};   // user rotation per image (0/90/180/270), persists across that model's questions
@@ -89,12 +90,14 @@
   function show(which){ for(const id of ["start","exam","done"]) $(id).classList.toggle("hidden", id!==which); }
   function banner(html){ $("banner").innerHTML = html; }
 
-  function start(ids){
-    const all = buildQuestions(ids); if(!all.length) return;
-    pool = shuffle(all); idx=0; retry=[]; round=1;
+  function beginSession(all){
+    if(!all.length) return;
+    pool = shuffle(all.slice()); idx=0; retry=[]; round=1;
     totalItems=all.length; firstTry=0; answeredFirst=new Set();
+    missed=[]; missedKeys=new Set();
     banner(""); show("exam"); render();
   }
+  function start(ids){ beginSession(buildQuestions(ids)); }
 
   /* ---------- render ---------- */
   function render(){
@@ -119,6 +122,8 @@
     $("s-retry").textContent=retry.length;
     $("s-acc").textContent = answeredFirst.size ? Math.round(100*firstTry/answeredFirst.size)+"%" : "—";
     $("bar").style.width = (100*idx/Math.max(1,pool.length))+"%";
+    $("q-count").textContent = `Question ${Math.min(idx+1,pool.length)} of ${pool.length}`
+      + (round>1 ? " · this round" : "");
   }
 
   /* ---------- submit ---------- */
@@ -159,6 +164,7 @@
     } else {
       nm.className="bad";
       retry.push(q);
+      if(!missedKeys.has(curKey)){ missedKeys.add(curKey); missed.push(q); }
       head = `<div class="fb-line bad"><span class="mark">✗</span><span>Not quite — study the card, it'll come back.</span></div>`;
     }
     // unified learn card: name + function paired, shown every time for clean encoding
@@ -186,6 +192,15 @@
       ? `A clean sweep — you nailed all ${totalItems} names on the first try.`
       : `You worked through every miss until nothing was left. That's mastery.`;
     $("d-items").textContent=totalItems; $("d-first").textContent=firstTry; $("d-rounds").textContent=round;
+    // offer a focused re-drill of everything missed at least once this session
+    doneMissed = missed.slice();
+    const btn = $("retry-missed");
+    if(doneMissed.length){
+      btn.textContent = `Drill the ${doneMissed.length} you missed`;
+      btn.classList.remove("hidden");
+    } else {
+      btn.classList.add("hidden");
+    }
   }
 
   /* ---------- rotate control ---------- */
@@ -214,6 +229,7 @@
   $("next").onclick = next;
   $("quit").onclick = () => { show("start"); banner(""); };
   $("again").onclick = () => show("start");
+  $("retry-missed").onclick = () => { if(doneMissed.length) beginSession(doneMissed); };
   $("startBtn").onclick = () => {
     const ids = [...document.querySelectorAll(".mdl:checked")].map(c=>c.value);
     start(ids);
