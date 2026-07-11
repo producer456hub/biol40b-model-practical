@@ -65,6 +65,14 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 .spellnote b{color:var(--accent-deep)}
 :root[data-theme="dark"] .spellnote b{color:var(--accent)}
 
+.focus-toggle{display:flex;gap:10px;align-items:flex-start;margin-top:16px;padding:12px 14px;border:1px solid color-mix(in srgb,#e0a100 40%,var(--line));border-radius:11px;background:color-mix(in srgb,#e0a100 9%,transparent);font-size:13.5px;line-height:1.45;cursor:pointer}
+.focus-toggle input{width:18px;height:18px;margin-top:1px;accent-color:#c98a00;cursor:pointer;flex:none}
+.focus-toggle b{color:#a06f00}
+:root[data-theme="dark"] .focus-toggle b{color:#f0c24a}
+
+.exam-flag{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#a06f00;background:color-mix(in srgb,#e0a100 15%,transparent);border:1px solid color-mix(in srgb,#e0a100 45%,transparent);padding:3px 8px;border-radius:99px;white-space:nowrap}
+:root[data-theme="dark"] .exam-flag{color:#f0c24a}
+
 .btn{font-family:var(--sans);font-size:15px;font-weight:600;border-radius:11px;cursor:pointer;padding:13px 20px;border:1px solid transparent;transition:.15s;line-height:1}
 .btn-primary{background:var(--accent);color:#fff}
 .btn-primary:hover{background:var(--accent-deep)}
@@ -83,7 +91,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 .progress i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .35s ease}
 .progress-cap{margin-bottom:16px;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted,#8a8a8a);font-weight:600}
 
-.qtag{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.qtag{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
 .qtag .model{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
 .badge{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 8px;border-radius:8px;background:var(--mc,var(--accent));color:#fff;font-family:var(--mono);font-weight:700;font-size:15px}
 #exam .card{border-top:3px solid var(--mc,var(--accent))}

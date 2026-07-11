@@ -32,7 +32,13 @@
       spelling. The <b>function</b> just needs a real attempt — the model answer appears every time so you can check
       yourself.</span></div>
 
-    <button class="btn btn-primary btn-block" id="startBtn" style="margin-top:18px">Start practical</button>
+    <label class="focus-toggle">
+      <input type="checkbox" id="focusHi">
+      <span><b>★ Focus mode</b> — only drill the <b id="hi-count">50</b> structures the software flags as
+        <b>likely on the exam</b>. Leave off to be tested on all of them.</span>
+    </label>
+
+    <button class="btn btn-primary btn-block" id="startBtn" style="margin-top:14px">Start practical</button>
   </section>
 
   <!-- EXAM -->
@@ -49,7 +55,7 @@
     <div class="banner" id="banner"></div>
 
     <div class="card pad">
-      <div class="qtag"><span class="badge" id="q-badge">#1</span><span class="model" id="q-model">Model</span></div>
+      <div class="qtag"><span class="badge" id="q-badge">#1</span><span class="model" id="q-model">Model</span><span class="exam-flag hidden" id="q-exam" title="Software thinks this is likely to be on the exam.">★ Likely on exam</span></div>
       <h2 class="qprompt" id="q-prompt">—</h2>
 
       <div class="field" id="field">
