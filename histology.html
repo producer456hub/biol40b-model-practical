@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BIOL 40B — Histology Practical Trainer</title>
+<meta name="description" content="Practice histology for BIOL 40B Lab Exam 1: identify the marked structure on the slide (name, strict spelling, retry until mastery). Live slide viewer from Histology Guide; drag-to-fix marker correction.">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="histology.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <span class="kicker">BIOL 40B · Lab Exam 1</span>
+      <h1>Histology — Trainer</h1>
+    </div>
+    <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle theme">◐</button>
+  </header>
+
+  <!-- START -->
+  <section id="start" class="card pad">
+    <p class="hero-note">The Lab Exam 1 histology slides. You're shown a slide with a <b>target</b> on it and you
+      type the <b>name</b> of the marked structure — spelling counts (you'll get a hint if you're close), and
+      anything you miss comes back until you've cleared it. Some slides open the <b>live slide on Histology Guide</b>
+      to study alongside.</p>
+
+    <div class="opts" id="opts">
+      <label class="opt"><input type="checkbox" id="opt-pin" checked>
+        <span class="txt"><span class="lab">Identify the marked structure</span>
+        <span class="sub">Our target on your slide photos — the core pin quiz</span></span></label>
+      <label class="opt"><input type="checkbox" id="opt-gap" checked>
+        <span class="txt"><span class="lab">Cochlea #37 &amp; retina layers (live slide)</span>
+        <span class="sub">Study the live Histology Guide slide, then name the structure</span></span></label>
+      <label class="opt"><input type="checkbox" id="opt-whole">
+        <span class="txt"><span class="lab">Name the slide</span>
+        <span class="sub">"What tissue / slide is this?"</span></span></label>
+      <label class="opt"><input type="checkbox" id="opt-cn">
+        <span class="txt"><span class="lab">Cranial nerves I–XII</span>
+        <span class="sub">Number, name, and sensory / motor / both</span></span></label>
+    </div>
+
+    <div class="spellnote"><span>🔬</span><span><b>Live slides, not copies.</b> The "View live on Histology Guide"
+      button loads the original slide straight from histologyguide.com for your personal study — nothing is
+      hosted here. The graded targets sit on your own course slide photos.</span></div>
+
+    <button class="btn btn-primary btn-block" id="startBtn" style="margin-top:18px">Start histology</button>
+    <div class="pagelink"><a href="index.html">← Model practical trainer</a></div>
+  </section>
+
+  <!-- EXAM -->
+  <section id="exam" class="hidden">
+    <div class="status">
+      <div class="stat"><span class="k">Round</span><span class="v" id="s-round">1</span></div>
+      <div class="stat"><span class="k">Remaining</span><span class="v" id="s-left">0</span></div>
+      <div class="stat"><span class="k">To review</span><span class="v" id="s-retry">0</span></div>
+      <div class="stat"><span class="k">1st try</span><span class="v acc" id="s-acc">—</span></div>
+    </div>
+    <div class="progress"><i id="bar" style="width:0%"></i></div>
+    <div class="progress-cap"><span id="q-count">Question 1 of 1</span></div>
+
+    <div class="banner" id="banner"></div>
+
+    <div class="card pad">
+      <div class="qtag"><span class="model" id="q-kind">Identify</span><span class="slide-title" id="q-title"></span></div>
+      <h2 class="qprompt" id="q-prompt">—</h2>
+
+      <div class="field hidden" id="field">
+        <img id="q-img" alt="histology slide">
+        <span class="reticle hidden" id="reticle"></span>
+        <span class="chip" id="chip"></span>
+        <span class="zoomhint">tap to zoom</span>
+      </div>
+
+      <div class="tools" id="tools">
+        <button class="tbtn" id="viewBtn" type="button" hidden>🔬 View live on Histology Guide</button>
+        <button class="tbtn" id="fixBtn" type="button" hidden>✎ Fix marker: off</button>
+        <button class="tbtn subtle" id="exportBtn" type="button" hidden>⤓ Export corrections</button>
+      </div>
+      <p class="fixhint hidden" id="fixhint">Drag the target onto the correct structure — your fix is saved on this device. Export it to make it permanent.</p>
+
+      <form class="answer" id="answer" autocomplete="off">
+        <div class="f-row">
+          <label for="input">Structure <span class="tag strict">spelling counts</span></label>
+          <input type="text" id="input" placeholder="Name the structure…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go">
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="submit-row">
+          <button class="btn btn-primary" id="submit" type="submit">Check</button>
+          <button class="btn btn-primary hidden" id="next" type="button">Next →</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="btnrow">
+      <button class="btn btn-ghost" id="quit">End &amp; restart</button>
+    </div>
+  </section>
+
+  <!-- DONE -->
+  <section id="done" class="hidden">
+    <div class="card done">
+      <div class="big" id="done-ico">✓</div>
+      <h2 id="done-h">Every structure cleared</h2>
+      <p id="done-p">You identified every marked structure.</p>
+      <div class="scoreline">
+        <div class="s"><span class="k">Items</span><span class="v" id="d-items">0</span></div>
+        <div class="s"><span class="k">1st try</span><span class="v" id="d-first">0</span></div>
+        <div class="s"><span class="k">Rounds</span><span class="v" id="d-rounds">0</span></div>
+      </div>
+      <div class="btnrow" style="justify-content:center">
+        <button class="btn btn-primary hidden" id="retry-missed">Drill the ones you missed</button>
+        <button class="btn btn-ghost" id="again">Take it again</button>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Study aid · not for distribution · slide photos from class keys · live slides © Histology Guide</p>
+</div>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox"><div class="lb-wrap"><img id="lb-img" alt="slide enlarged"><span class="reticle hidden" id="lb-reticle"></span></div></div>
+
+<!-- live-slide embed -->
+<div class="modal" id="embed-modal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span>🔬 Histology Guide — live slide (viewing only, not copied)</span>
+      <div class="modal-actions">
+        <a id="embed-open" href="#" target="_blank" rel="noopener" class="tbtn subtle">Open in new tab ↗</a>
+        <button class="tbtn subtle" id="embed-close" type="button">✕ Close</button>
+      </div>
+    </div>
+    <iframe id="embed-frame" title="Histology Guide slide" referrerpolicy="no-referrer"></iframe>
+    <p class="modal-foot" id="embed-fallback">If the slide doesn't load in this frame, use "Open in new tab ↗" — some slides block embedding.</p>
+  </div>
+</div>
+
+<!-- export corrections -->
+<div class="modal" id="export-modal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span>⤓ Marker corrections</span>
+      <div class="modal-actions">
+        <button class="tbtn subtle" id="export-copy" type="button">Copy</button>
+        <button class="tbtn subtle" id="export-clear" type="button">Clear all</button>
+        <button class="tbtn subtle" id="export-close" type="button">✕ Close</button>
+      </div>
+    </div>
+    <p class="modal-foot">These are the marker positions you've dragged, saved on this device. Copy this and send it to
+      Claude (or paste into <code>histology_data.js</code>) to bake the fixes in for everyone.</p>
+    <textarea id="export-ta" spellcheck="false" readonly></textarea>
+  </div>
+</div>
+
+<script src="histology_data.js"></script>
+<script src="histology.js"></script>
+</body>
+</html>
