@@ -37,7 +37,14 @@
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
 .wrap{max-width:720px;margin:0 auto;padding:20px 18px 64px}
 
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+
+/* segmented page nav — shows which trainer you're on; tap the other to switch */
+.pagenav{display:flex;gap:4px;padding:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;margin-bottom:18px}
+.pagenav .pnav{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none;transition:.15s}
+.pagenav .pnav:hover{color:var(--ink)}
+.pagenav .pnav.on{background:var(--surface);color:var(--accent);box-shadow:var(--shadow);cursor:default}
+.pagenav .pnav .ic{font-size:15px}
 .brand{display:flex;flex-direction:column;gap:2px}
 .brand .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
 .brand h1{font-size:19px;margin:0;font-weight:650;letter-spacing:-.01em}
