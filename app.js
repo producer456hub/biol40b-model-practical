@@ -46,23 +46,18 @@
   }
 
   /* ---------- build questions ---------- */
-  function buildQuestions(ids, hiOnly){
+  function buildQuestions(ids){
     const qs=[];
     for(const m of MODELS){
       if(!ids.includes(m.id)) continue;
-      for(const it of m.items){
-        if(hiOnly && it.exam===false) continue;
-        qs.push({
-          model:m.title, modelId:m.id, image:m.image, n:it.n, color:m.numColor,
-          name:it.name, accept: it.accept.includes(norm(it.name))||it.accept.map(norm).includes(norm(it.name)) ? it.accept : [it.name, ...it.accept],
-          func:it.func, fkeys:it.fkeys||[], exam: it.exam!==false
-        });
-      }
+      for(const it of m.items) qs.push({
+        model:m.title, modelId:m.id, image:m.image, n:it.n, color:m.numColor,
+        name:it.name, accept: it.accept.includes(norm(it.name))||it.accept.map(norm).includes(norm(it.name)) ? it.accept : [it.name, ...it.accept],
+        func:it.func, fkeys:it.fkeys||[]
+      });
     }
     return qs;
   }
-  // count of high-yield (likely-on-exam) structures across all models
-  const hiTotal = MODELS.reduce((s,m)=>s+m.items.filter(it=>it.exam!==false).length,0);
   const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
 
   /* ---------- state ---------- */
@@ -102,7 +97,7 @@
     missed=[]; missedKeys=new Set();
     banner(""); show("exam"); render();
   }
-  function start(ids){ beginSession(buildQuestions(ids, $("focusHi") && $("focusHi").checked)); }
+  function start(ids){ beginSession(buildQuestions(ids)); }
 
   /* ---------- render ---------- */
   function render(){
@@ -111,7 +106,6 @@
     root.style.setProperty("--mc", q.color);              // per-model color identity (retention: color-location binding)
     $("q-badge").textContent = "#"+q.n;
     $("q-model").textContent = q.model;
-    $("q-exam").classList.toggle("hidden", !q.exam);
     $("q-prompt").innerHTML = `On the <span class="hl">${q.model}</span>, identify structure <span class="hl">#${q.n}</span> — its name and its function.`;
     const img=$("q-img"); img.onload = fitField; img.src = q.image; setTimeout(fitField, 0);
 
@@ -231,7 +225,6 @@
   $("lightbox").onclick = () => $("lightbox").classList.remove("on");
 
   /* ---------- wire ---------- */
-  if($("hi-count")) $("hi-count").textContent = hiTotal;
   $("answer").addEventListener("submit", submit);
   $("next").onclick = next;
   $("quit").onclick = () => { show("start"); banner(""); };
