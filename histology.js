@@ -249,8 +249,26 @@
   };
 
   /* ---------- live-slide viewer ---------- */
-  function openEmbed(url){ if(!url) return; $("embed-frame").src=url; $("embed-open").href=url; $("embed-modal").classList.add("on"); }
+  let embedUrl = "";
+  function openEmbed(url){
+    if(!url) return;
+    embedUrl = url;
+    $("embed-open").href = url;
+    $("embed-modal").classList.add("on");
+    // set src only after the modal is visible — the Zoomify viewer renders blank
+    // if it initializes inside a hidden (0×0) container
+    const fr = $("embed-frame");
+    fr.src = "about:blank";
+    requestAnimationFrame(() => requestAnimationFrame(() => { fr.src = url; }));
+  }
+  function popoutEmbed(url){
+    if(!url) return;
+    const w=1024, h=Math.min(840, screen.availHeight-40);
+    const left=Math.max(0,(screen.availWidth-w)/2), top=Math.max(0,(screen.availHeight-h)/2);
+    window.open(url, "hg-slide", `width=${w},height=${h},left=${left},top=${top},scrollbars=yes,resizable=yes`);
+  }
   $("viewBtn").onclick = () => openEmbed(pool[idx] && pool[idx].histoUrl);
+  $("embed-popout").onclick = () => popoutEmbed(embedUrl);
   $("embed-close").onclick = () => { $("embed-modal").classList.remove("on"); $("embed-frame").src="about:blank"; };
 
   /* ---------- lightbox ---------- */

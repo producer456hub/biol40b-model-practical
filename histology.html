@@ -131,11 +131,12 @@
     <div class="modal-head">
       <span>🔬 Histology Guide — live slide (viewing only, not copied)</span>
       <div class="modal-actions">
+        <button class="tbtn subtle" id="embed-popout" type="button">⤢ Pop-out window</button>
         <a id="embed-open" href="#" target="_blank" rel="noopener" class="tbtn subtle">Open in new tab ↗</a>
         <button class="tbtn subtle" id="embed-close" type="button">✕ Close</button>
       </div>
     </div>
-    <iframe id="embed-frame" title="Histology Guide slide" referrerpolicy="no-referrer"></iframe>
+    <iframe id="embed-frame" title="Histology Guide slide" allowfullscreen></iframe>
     <p class="modal-foot" id="embed-fallback">If the slide doesn't load in this frame, use "Open in new tab ↗" — some slides block embedding.</p>
   </div>
 </div>
