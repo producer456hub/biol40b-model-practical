@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BIOL 40B — Model Practical Trainer</title>
-<meta name="description" content="Practice model practical for BIOL 40B: identify the numbered structures on the neuron, brain, eye, ear, and cochlea models — name and function.">
+<title>BIOL 40B — Cranial Nerves Trainer</title>
+<meta name="description" content="Practice the 12 cranial nerves for BIOL 40B: identify each numbered nerve on the inferior-view brain — name (with its Roman numeral) and function.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,29 +12,30 @@
   <header class="top">
     <div class="brand">
       <span class="kicker">BIOL 40B · Lab Models</span>
-      <h1>Model Practical — Trainer</h1>
+      <h1>Cranial Nerves — Trainer</h1>
     </div>
     <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle theme">◐</button>
   </header>
 
   <nav class="pagenav" aria-label="Trainer sections">
-    <a href="index.html" class="pnav on" aria-current="page"><span class="ic">🧠</span> Model practical</a>
-    <a href="cranial.html" class="pnav"><span class="ic">🧬</span> Cranial nerves</a>
+    <a href="index.html" class="pnav"><span class="ic">🧠</span> Model practical</a>
+    <a href="cranial.html" class="pnav on" aria-current="page"><span class="ic">🧬</span> Cranial nerves</a>
     <a href="histology.html" class="pnav"><span class="ic">🔬</span> Histology</a>
   </nav>
 
   <!-- START -->
   <section id="start" class="card pad">
-    <p class="hero-note">The numbered lab models, exactly as they're tagged on the exam. You're shown a model with
-      numbers on it and, for each one, you type <b>both its name and its function</b> — just like the real practical.
-      Names must be spelled correctly (you'll get a hint if you're close); functions are checked loosely and the
-      answer is always shown so you can learn it. Miss anything and it comes back until you've cleared it all.</p>
+    <p class="hero-note">All twelve cranial nerves on the inferior (bottom) view of the brain, tagged with numbers just like
+      the practical. For each numbered nerve you type <b>its name and its function</b>. Give the name the way you're
+      expected to on the exam — the <b>Roman numeral</b> is part of it (e.g. <i>Optic nerve (II)</i>), but you'll be
+      marked correct with or without it. Names are graded on spelling (you'll get a hint if you're close); functions are
+      checked loosely and the answer is always shown. Miss any and they come back until you've cleared them all.</p>
 
     <div class="speclist" id="speclist"></div>
 
     <div class="opts" id="opts"></div>
 
-    <div class="spellnote"><span>📝</span><span><b>Two answers per structure.</b> The <b>name</b> is graded strictly on
+    <div class="spellnote"><span>📝</span><span><b>Two answers per nerve.</b> The <b>name</b> is graded strictly on
       spelling. The <b>function</b> just needs a real attempt — the model answer appears every time so you can check
       yourself.</span></div>
 
@@ -67,7 +68,7 @@
       <form class="answer" id="answer" autocomplete="off">
         <div class="f-row">
           <label for="in-name">Name <span class="tag strict">spelling counts</span></label>
-          <input type="text" id="in-name" placeholder="Structure name…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          <input type="text" id="in-name" placeholder="Nerve name…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         </div>
         <div class="f-row">
           <label for="in-func">Function <span class="tag">any reasonable attempt</span></label>
@@ -90,10 +91,10 @@
   <section id="done" class="hidden">
     <div class="card done">
       <div class="big">✓</div>
-      <h2 id="done-h">Every structure cleared</h2>
-      <p id="done-p">You identified every numbered structure — name and function.</p>
+      <h2 id="done-h">Every nerve cleared</h2>
+      <p id="done-p">You identified every cranial nerve — name and function.</p>
       <div class="scoreline">
-        <div class="s"><span class="k">Structures</span><span class="v" id="d-items">0</span></div>
+        <div class="s"><span class="k">Nerves</span><span class="v" id="d-items">0</span></div>
         <div class="s"><span class="k">Names 1st try</span><span class="v" id="d-first">0</span></div>
         <div class="s"><span class="k">Rounds</span><span class="v" id="d-rounds">0</span></div>
       </div>
@@ -104,12 +105,12 @@
     </div>
   </section>
 
-  <p class="foot">Study aid · not for distribution · model photos from class answer keys</p>
+  <p class="foot">Study aid · not for distribution · diagram adapted from OpenStax Anatomy &amp; Physiology (CC BY)</p>
 </div>
 
 <div class="lightbox" id="lightbox"><img id="lb-img" alt="model enlarged"></div>
 
-<script src="data.js"></script>
+<script src="cranial_data.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
