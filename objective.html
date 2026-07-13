@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BIOL 40B — Lecture Exam 1 Trainer</title>
-<meta name="description" content="Practice test for BIOL 40B Lecture Exam 1 (Nervous System & Special Senses): 100 multiple-choice questions with the answer and explanation revealed after each pick, and a retry loop that re-drills every question you miss until nothing is left.">
+<title>BIOL 40B — Exam 1: Objective Scope</title>
+<meta name="description" content="Objective-based practice test for BIOL 40B Exam 1 (Nervous System & Special Senses): 50 multiple-choice questions built from the learning objectives, with the answer and explanation revealed after each pick and a retry loop that re-drills every miss until nothing is left.">
 <link rel="stylesheet" href="styles.css">
 <style>
-/* ---- MCQ-specific styling (built on the shared model/histology system) ---- */
+/* ---- MCQ-specific styling (shared with the Lecture Exam trainer) ---- */
 .choices{display:flex;flex-direction:column;gap:10px;margin-top:6px}
 .choice{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;cursor:pointer;transition:.13s}
 .choice:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
@@ -32,8 +32,8 @@
 <div class="wrap">
   <header class="top">
     <div class="brand">
-      <span class="kicker">BIOL 40B · Lecture Exam 1</span>
-      <h1>Lecture Exam 1 — Practice Test</h1>
+      <span class="kicker">BIOL 40B · Exam 1 Objectives</span>
+      <h1>Exam 1: Objective Scope</h1>
     </div>
     <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle theme">◐</button>
   </header>
@@ -42,29 +42,29 @@
     <a href="index.html" class="pnav"><span class="ic">🧠</span> Model practical</a>
     <a href="cranial.html" class="pnav"><span class="ic">🧬</span> Cranial nerves</a>
     <a href="histology.html" class="pnav"><span class="ic">🔬</span> Histology</a>
-    <a href="lecture.html" class="pnav on" aria-current="page"><span class="ic">📝</span> Lecture Exam 1</a>
-    <a href="objective.html" class="pnav"><span class="ic">🎯</span> Objective Scope</a>
+    <a href="lecture.html" class="pnav"><span class="ic">📝</span> Lecture Exam 1</a>
+    <a href="objective.html" class="pnav on" aria-current="page"><span class="ic">🎯</span> Objective Scope</a>
     <a href="cram.html" class="pnav"><span class="ic">⚡</span> Cram sheet</a>
   </nav>
 
   <!-- START -->
   <section id="start" class="card pad">
-    <p class="hero-note">The full Lecture Exam 1 question bank — Nervous System &amp; Special Senses. Pick an answer and the
-      <b>correct choice and a short explanation appear right away</b> so you learn it on the spot. Anything you get wrong
-      is re-queued and comes back round after round until you've cleared every question.</p>
+    <p class="hero-note">A 50-question practice test built straight from the <b>Exam 1 learning objectives</b> — Nervous
+      System &amp; Special Senses, focused on functions and cause-and-effect. Pick an answer and the <b>correct choice
+      and a short explanation appear right away</b>. Anything you miss is re-queued and comes back round after round
+      until you've cleared every question.</p>
 
     <div class="opts" id="opts">
       <label class="opt"><input type="radio" name="mode" id="mode-all" checked>
-        <span class="txt"><span class="lab">Full exam — all 100 questions</span>
-        <span class="sub">Every question, shuffled, then retry-until-mastery</span></span></label>
+        <span class="txt"><span class="lab">Full test — all 50 questions</span>
+        <span class="sub">Every objective question, shuffled, then retry-until-mastery</span></span></label>
       <label class="opt"><input type="radio" name="mode" id="mode-quick">
         <span class="txt"><span class="lab">Quick set — 25 random questions</span>
         <span class="sub">A shorter shuffled slice, same retry loop</span></span></label>
     </div>
 
-    <div class="spellnote"><span>📝</span><span><b>Answer, then learn.</b> The moment you choose, the right answer lights up
-      green and the explanation appears. Missed questions repeat until none remain — so a finished session means you
-      truly know all of it.</span></div>
+    <div class="spellnote"><span>🎯</span><span><b>Objective-scoped.</b> Every item maps to a stated learning objective.
+      Missed questions repeat until none remain — so a finished session means you've covered the objectives cold.</span></div>
 
     <button class="btn btn-primary btn-block" id="startBtn" style="margin-top:18px">Start practice test</button>
   </section>
@@ -118,10 +118,10 @@
     </div>
   </section>
 
-  <p class="foot">Study aid · not for distribution · Lecture Exam 1 · Nervous System &amp; Special Senses</p>
+  <p class="foot">Study aid · not for distribution · Exam 1 objectives · Nervous System &amp; Special Senses</p>
 </div>
 
-<script src="lecture_data.js"></script>
-<script src="lecture.js"></script>
+<script src="objective_data.js"></script>
+<script src="objective.js"></script>
 </body>
 </html>
