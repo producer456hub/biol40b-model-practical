@@ -158,3 +158,21 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 .foot{text-align:center;color:var(--faint);font-size:12px;margin-top:26px;font-family:var(--mono)}
 .hidden{display:none!important}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- spelling helpers: letter diff · retype-to-lock-in · root breakdown ---------- */
+.spelldiff{margin-top:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:8px 10px;overflow-x:auto}
+.spelldiff .sd-row{display:flex;align-items:center;gap:8px;line-height:1.7}
+.spelldiff .sd-lab{flex:none;width:26px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+.spelldiff code{font-family:var(--mono);font-size:16px;letter-spacing:1px;white-space:nowrap}
+.spelldiff .dwrong{background:var(--miss-soft);color:var(--miss);border-radius:3px;font-weight:700}
+.spelldiff .dright{background:var(--correct-soft);color:var(--correct);border-radius:3px;font-weight:700}
+.spelldiff .dgap{color:var(--faint);opacity:.6}
+
+.retype{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.retype-cap{flex-basis:100%;font-size:14px;color:var(--ink)}
+.retype-in{flex:1;min-width:200px;font-family:var(--sans);font-size:16px;padding:10px 13px;border:2px solid var(--mc,var(--accent));border-radius:10px;background:var(--surface);color:var(--ink);outline:none}
+.retype-in:focus{box-shadow:0 0 0 3px var(--accent-soft)}
+.retype-in.done{border-color:var(--correct);box-shadow:0 0 0 3px var(--correct-soft)}
+.retype-ok{font-weight:700;font-size:13px;color:var(--correct)}
+
+.lc-roots{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:2px 0 4px;letter-spacing:.01em}

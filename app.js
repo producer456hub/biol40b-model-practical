@@ -32,6 +32,56 @@
   const genuineFunc = s => { const g = norm(s); return g.length>=3 && /[a-z]/.test(g); };
   const softMatch = (s, fkeys) => { const g = norm(s); return (fkeys||[]).some(k => g.includes(k)); };
 
+  /* ---------- spelling helpers (letter-level diff + closest target) ---------- */
+  // closest accepted variant to what the student typed (by edit distance on normalized text)
+  function closest(input, accepted){
+    const q=norm(input); let best=accepted[0], bd=1e9;
+    for(const a of accepted){const d=lev(q,norm(a)); if(d<bd){bd=d;best=a;}}
+    return best;
+  }
+  // align two strings via the Levenshtein DP backtrace → per-cell match/sub/del/ins
+  function align(a,b){
+    const m=a.length,n=b.length,d=Array.from({length:m+1},()=>Array(n+1).fill(0));
+    for(let i=0;i<=m;i++)d[i][0]=i; for(let j=0;j<=n;j++)d[0][j]=j;
+    for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){const c=a[i-1]===b[j-1]?0:1;
+      d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);}
+    let i=m,j=n; const rows=[];
+    while(i>0||j>0){
+      if(i>0&&j>0&&d[i][j]===d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)){rows.push({a:a[i-1],b:b[j-1],t:a[i-1]===b[j-1]?"m":"s"});i--;j--;}
+      else if(i>0&&d[i][j]===d[i-1][j]+1){rows.push({a:a[i-1],b:null,t:"d"});i--;}
+      else {rows.push({a:null,b:b[j-1],t:"i"});j--;}
+    }
+    return rows.reverse();
+  }
+  const escCh = c => c===" " ? "·" : (c==null ? "" : c.replace(/[&<>]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[x])));
+  // two aligned lines: what you typed (wrong letters flagged) over the correct spelling
+  function diffHTML(input, target){
+    const rows=align(norm(input), norm(target));
+    const you=rows.map(r=> r.a==null ? `<span class="dgap">_</span>` : `<span class="${r.t==="m"?"":"dwrong"}">${escCh(r.a)}</span>`).join("");
+    const fix=rows.map(r=> r.b==null ? `<span class="dgap">_</span>` : `<span class="${r.t==="m"?"":"dright"}">${escCh(r.b)}</span>`).join("");
+    return `<div class="spelldiff"><div class="sd-row"><span class="sd-lab">you</span><code>${you}</code></div>`+
+           `<div class="sd-row"><span class="sd-lab">fix</span><code>${fix}</code></div></div>`;
+  }
+  // "retype it correctly to continue" — locks the corrected spelling into memory before advancing
+  function requireRetype(answerText, accepted, onCleared){
+    const fb=$("feedback"), next=$("next");
+    next.classList.add("hidden");
+    const box=document.createElement("div"); box.className="retype";
+    box.innerHTML=`<div class="retype-cap">✍️ Lock it in — retype <b>${answerText.replace(/[<>&]/g,"")}</b> to continue:</div>`;
+    const inp=document.createElement("input");
+    inp.type="text"; inp.className="retype-in"; inp.placeholder="Retype it…";
+    inp.autocomplete="off"; inp.autocorrect="off"; inp.autocapitalize="off"; inp.spellcheck=false;
+    box.appendChild(inp); fb.appendChild(box);
+    const check=()=>{ if(judgeName(inp.value, accepted)==="correct"){
+      inp.classList.add("done"); inp.disabled=true;
+      if(!box.querySelector(".retype-ok")) box.insertAdjacentHTML("beforeend",`<span class="retype-ok">✓ nailed it</span>`);
+      next.classList.remove("hidden"); next.focus(); if(onCleared) onCleared();
+    }};
+    inp.addEventListener("input", check);
+    inp.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); check(); }});
+    setTimeout(()=>inp.focus(),30);
+  }
+
   /* ---------- start screen ---------- */
   const speclist = $("speclist"), opts = $("opts");
   for (const m of MODELS){
@@ -53,7 +103,7 @@
       for(const it of m.items) qs.push({
         model:m.title, modelId:m.id, image:m.image, n:it.n, color:m.numColor,
         name:it.name, accept: it.accept.includes(norm(it.name))||it.accept.map(norm).includes(norm(it.name)) ? it.accept : [it.name, ...it.accept],
-        func:it.func, fkeys:it.fkeys||[]
+        func:it.func, fkeys:it.fkeys||[], roots:it.roots||""
       });
     }
     return qs;
@@ -133,10 +183,11 @@
     const q=pool[idx], nm=$("in-name"), fn=$("in-func"), fb=$("feedback");
     const verdict = judgeName(nm.value, q.accept);
 
-    // name spelling nudge (once)
+    // name spelling nudge (once) — show exactly which letters are off
     if(verdict==="close" && !hintedName){
       hintedName=true; nm.className="hint";
-      fb.innerHTML = `<div class="fb-line hint"><span class="mark">✎</span><span><b>Check the spelling</b> — you're close on the name.</span></div>`;
+      fb.innerHTML = `<div class="fb-line hint"><span class="mark">✎</span><span><b>Check the spelling</b> — you're close on the name.</span></div>`
+        + diffHTML(nm.value, closest(nm.value, q.accept));
       nm.focus(); nm.select(); return;
     }
     const nameCorrect = verdict==="correct";
@@ -172,8 +223,11 @@
       `<div class="learn-card">
          <div class="lc-top"><span class="lc-badge">#${q.n}</span><span class="lc-model">${q.model}</span></div>
          <div class="lc-name">${q.name}</div>
+         ${q.roots ? `<div class="lc-roots">${q.roots}</div>` : ""}
          <div class="lc-func">${q.func}</div>
        </div>`;
+    // missed a name → must retype it correctly before advancing (locks in the spelling)
+    if(!nameCorrect) requireRetype(q.name, q.accept);
     updateStatus();
   }
 

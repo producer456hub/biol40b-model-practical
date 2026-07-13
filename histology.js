@@ -28,6 +28,52 @@
     return best<=tol ? "close" : "wrong";
   }
 
+  /* ---------- spelling helpers (letter-level diff + retype-to-lock-in) ---------- */
+  function closest(input, accepted){
+    const q=norm(input); let best=accepted[0], bd=1e9;
+    for(const a of accepted){const d=lev(q,norm(a)); if(d<bd){bd=d;best=a;}}
+    return best;
+  }
+  function align(a,b){
+    const m=a.length,n=b.length,d=Array.from({length:m+1},()=>Array(n+1).fill(0));
+    for(let i=0;i<=m;i++)d[i][0]=i; for(let j=0;j<=n;j++)d[0][j]=j;
+    for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){const c=a[i-1]===b[j-1]?0:1;
+      d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);}
+    let i=m,j=n; const rows=[];
+    while(i>0||j>0){
+      if(i>0&&j>0&&d[i][j]===d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)){rows.push({a:a[i-1],b:b[j-1],t:a[i-1]===b[j-1]?"m":"s"});i--;j--;}
+      else if(i>0&&d[i][j]===d[i-1][j]+1){rows.push({a:a[i-1],b:null,t:"d"});i--;}
+      else {rows.push({a:null,b:b[j-1],t:"i"});j--;}
+    }
+    return rows.reverse();
+  }
+  const escCh = c => c===" " ? "·" : (c==null ? "" : c.replace(/[&<>]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[x])));
+  function diffHTML(input, target){
+    const rows=align(norm(input), norm(target));
+    const you=rows.map(r=> r.a==null ? `<span class="dgap">_</span>` : `<span class="${r.t==="m"?"":"dwrong"}">${escCh(r.a)}</span>`).join("");
+    const fix=rows.map(r=> r.b==null ? `<span class="dgap">_</span>` : `<span class="${r.t==="m"?"":"dright"}">${escCh(r.b)}</span>`).join("");
+    return `<div class="spelldiff"><div class="sd-row"><span class="sd-lab">you</span><code>${you}</code></div>`+
+           `<div class="sd-row"><span class="sd-lab">fix</span><code>${fix}</code></div></div>`;
+  }
+  function requireRetype(answerText, accepted){
+    const fb=$("feedback"), next=$("next");
+    next.classList.add("hidden");
+    const box=document.createElement("div"); box.className="retype";
+    box.innerHTML=`<div class="retype-cap">✍️ Lock it in — retype <b>${(answerText+"").replace(/[<>&]/g,"")}</b> to continue:</div>`;
+    const inp=document.createElement("input");
+    inp.type="text"; inp.className="retype-in"; inp.placeholder="Retype it…";
+    inp.autocomplete="off"; inp.autocorrect="off"; inp.autocapitalize="off"; inp.spellcheck=false;
+    box.appendChild(inp); fb.appendChild(box);
+    const check=()=>{ if(judge(inp.value, accepted)==="correct"){
+      inp.classList.add("done"); inp.disabled=true;
+      if(!box.querySelector(".retype-ok")) box.insertAdjacentHTML("beforeend",`<span class="retype-ok">✓ nailed it</span>`);
+      next.classList.remove("hidden"); next.focus();
+    }};
+    inp.addEventListener("input", check);
+    inp.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); check(); }});
+    setTimeout(()=>inp.focus(),30);
+  }
+
   /* ---------- marker corrections (persisted on this device) ---------- */
   const CORR_KEY = "histo-corr-v1";
   let CORR = {};
@@ -152,7 +198,9 @@
 
     if(verdict==="close" && !hinted){
       hinted=true; inp.className="hint";
-      fb.className="feedback"; fb.innerHTML=`<div class="fb-line hint"><span class="mark">✎</span><span><b>So close</b> — check the spelling and try again.</span></div>`;
+      fb.className="feedback";
+      fb.innerHTML=`<div class="fb-line hint"><span class="mark">✎</span><span><b>So close</b> — check the spelling and try again.</span></div>`
+        + diffHTML(inp.value, closest(inp.value, q.accepted));
       inp.select(); return;
     }
 
@@ -161,17 +209,19 @@
     locked=true; inp.disabled=true; setFix(false);
     $("submit").classList.add("hidden"); $("next").classList.remove("hidden"); $("next").focus();
 
+    const rootsHTML = q.roots ? `<div class="lc-roots">${q.roots}</div>` : "";
     if(verdict==="correct"){
       if(firstAttempt && !hinted) firstTry++;
       inp.className="ok";
-      fb.className="feedback"; fb.innerHTML=`<div class="fb-line ok"><span class="mark">✓</span><span><b>Correct.</b> ${alsoAccepted(q)}</span></div>`;
+      fb.className="feedback"; fb.innerHTML=`<div class="fb-line ok"><span class="mark">✓</span><span><b>Correct.</b> ${alsoAccepted(q)}</span></div>`+rootsHTML;
       markReticle("ok", q);
     } else {
       inp.className="bad";
-      fb.className="feedback"; fb.innerHTML=`<div class="fb-line bad"><span class="mark">✗</span><span class="ans">${q.answer}</span> — spelled exactly.</div>`;
+      fb.className="feedback"; fb.innerHTML=`<div class="fb-line bad"><span class="mark">✗</span><span class="ans">${q.answer}</span> — spelled exactly.</div>`+rootsHTML;
       markReticle("bad", q);
       retry.push(q);
       if(!missedKeys.has(curKey)){ missedKeys.add(curKey); missed.push(q); }
+      requireRetype(q.answer, q.accepted);   // must retype the correct spelling before advancing
     }
     updateStatus();
   }
