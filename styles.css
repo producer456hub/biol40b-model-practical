@@ -45,6 +45,8 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 .pagenav .pnav:hover{color:var(--ink)}
 .pagenav .pnav.on{background:var(--surface);color:var(--accent);box-shadow:var(--shadow);cursor:default}
 .pagenav .pnav .ic{font-size:15px}
+/* with 5 trainers the segmented bar gets tight on phones — wrap to a 2nd row instead of squishing */
+@media(max-width:560px){.pagenav{flex-wrap:wrap}.pagenav .pnav{flex:1 1 calc(33.333% - 4px);white-space:nowrap}}
 .brand{display:flex;flex-direction:column;gap:2px}
 .brand .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600}
 .brand h1{font-size:19px;margin:0;font-weight:650;letter-spacing:-.01em}
