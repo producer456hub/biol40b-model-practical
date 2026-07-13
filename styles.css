@@ -176,3 +176,58 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1
 .retype-ok{font-weight:700;font-size:13px;color:var(--correct)}
 
 .lc-roots{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:2px 0 4px;letter-spacing:.01em}
+
+/* ---------- Cram sheet (phone-first, active-recall reveal) ---------- */
+.mono{font-family:var(--mono);font-size:.92em}
+.cram-tools{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.cram-tools .btn{flex:1 1 auto;min-width:140px}
+.cram-how{margin-top:12px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13.5px}
+.cram-how ol{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.cram-toc{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.toc-chip{font-size:12.5px;padding:6px 11px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);text-decoration:none}
+.toc-chip:active{background:var(--accent-soft)}
+
+.cram-sec{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:12px 0;overflow:hidden}
+.cram-sec>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font-weight:700;font-size:16px;border-left:4px solid var(--mc,var(--accent))}
+.cram-sec>summary::-webkit-details-marker{display:none}
+.cram-sec>summary::after{content:"▸";margin-left:auto;color:var(--faint);transition:.15s}
+.cram-sec[open]>summary::after{transform:rotate(90deg)}
+.cram-dot{width:12px;height:12px;border-radius:50%;flex:none}
+.cram-count{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--faint);background:var(--surface-2);border-radius:6px;padding:1px 7px}
+.cram-body{padding:0 14px 16px}
+.cram-img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px;margin:2px 0 12px;background:#fff}
+
+.cram-mnem{background:var(--accent-soft);border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:13.5px;line-height:1.5}
+.cram-mnem-t{display:block;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-deep);margin-bottom:2px}
+:root[data-theme="dark"] .cram-mnem-t{color:var(--accent)}
+
+.cram-rows{display:grid;grid-template-columns:1fr;gap:8px}
+.cram-row{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cram-row:active{background:var(--surface-2)}
+.cram-num{flex:none;min-width:34px;height:30px;border-radius:8px;color:#fff;font-weight:700;font-family:var(--mono);font-size:14px;display:inline-grid;place-items:center;padding:0 8px}
+.cram-reveal{align-self:center;color:var(--faint);font-size:13px;font-style:italic}
+.cram-ans{display:none;flex:1;min-width:0}
+.cram-row.show .cram-reveal{display:none}
+.cram-row.show .cram-ans{display:block}
+.cram-name{display:block;font-weight:700;font-size:15px;line-height:1.3}
+.cram-roots{display:block;font-family:var(--mono);font-size:12px;color:var(--muted);margin:3px 0}
+.cram-func{display:block;font-size:14px;color:var(--ink);line-height:1.4}
+.cn-type{font-style:normal;font-size:10px;font-weight:700;padding:1px 6px;border-radius:5px;vertical-align:middle;margin-left:4px}
+.cn-type.t-s{background:var(--accent-soft);color:var(--accent-deep)}
+.cn-type.t-m{background:var(--miss-soft);color:var(--miss)}
+.cn-type.t-b{background:var(--hint-soft);color:var(--hint)}
+:root[data-theme="dark"] .cn-type.t-s{color:var(--accent)}
+
+@media(min-width:720px){ .cram-rows{grid-template-columns:1fr 1fr} }
+
+@media print{
+  .top,.pagenav,#cram-intro,.foot{display:none!important}
+  .cram-sec{border:none;margin:0 0 10px;break-inside:avoid}
+  .cram-sec>summary::after{display:none}
+  .cram-body{padding:0}
+  .cram-ans{display:block!important}
+  .cram-reveal{display:none!important}
+  .cram-row{border:1px solid #ccc;break-inside:avoid;padding:6px 8px}
+  .cram-img{max-width:55%}
+  .cram-rows{grid-template-columns:1fr 1fr}
+}

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BIOL 40B — Cram Sheet (all answers)</title>
+<meta name="description" content="One-page review of every lab-model structure for BIOL 40B — names, functions, word-roots, and mnemonics, built for active recall before the practical.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <span class="kicker">BIOL 40B · Lab Models</span>
+      <h1>Cram Sheet — All the Answers</h1>
+    </div>
+    <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle theme">◐</button>
+  </header>
+
+  <nav class="pagenav" aria-label="Trainer sections">
+    <a href="index.html" class="pnav"><span class="ic">🧠</span> Model practical</a>
+    <a href="cranial.html" class="pnav"><span class="ic">🧬</span> Cranial nerves</a>
+    <a href="histology.html" class="pnav"><span class="ic">🔬</span> Histology</a>
+    <a href="cram.html" class="pnav on" aria-current="page"><span class="ic">⚡</span> Cram sheet</a>
+  </nav>
+
+  <section class="card pad" id="cram-intro">
+    <p class="hero-note"><b>Everything on one page — built to stick, not just to skim.</b> Answers start hidden:
+      look at the model, say the answer out loud, <i>then</i> tap to check. That “cover &amp; recall” beats re-reading
+      every time. Use the mnemonics, and read each word’s <b>roots</b> — once the parts mean something, the spelling
+      stops being random.</p>
+    <div class="cram-tools">
+      <button class="btn btn-primary" id="revealAll">👁 Reveal all</button>
+      <button class="btn btn-ghost" id="coverAll">🙈 Cover all (recall mode)</button>
+      <button class="btn btn-ghost" id="printBtn">🖨 Print / save PDF</button>
+    </div>
+    <div class="cram-how">
+      <b>How to cram for retention:</b>
+      <ol>
+        <li><b>Recall first.</b> Keep answers covered, work each model, say name + function before revealing.</li>
+        <li><b>Chunk by system</b> — do one model at a time (they’re colour-coded).</li>
+        <li><b>Say the roots</b> — <span class="mono">glosso- (tongue) + pharyng- (throat)</span> makes the word spellable.</li>
+        <li><b>Lean on the mnemonics</b> for the ordered lists (cranial nerves).</li>
+        <li><b>Space it</b> — one full pass tonight, one quick recall-only pass right before class.</li>
+      </ol>
+    </div>
+    <nav class="cram-toc" id="toc" aria-label="Jump to a model"></nav>
+  </section>
+
+  <main id="cram"></main>
+
+  <p class="foot">Study aid · not for distribution · answers pulled live from the trainer data · diagram adapted from OpenStax (CC BY)</p>
+</div>
+
+<script src="cram.js"></script>
+</body>
+</html>
