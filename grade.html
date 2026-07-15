@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BIOL 40B — Grade Calculator</title>
+<meta name="description" content="Figure out your overall BIOL 40B grade from what you think you scored on exams and quizzes. Blank fields count as 100%; the 2 lecture exams include the +30 extra-credit points.">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ---- grade calculator ---- */
+.gc-hero{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;text-align:center;margin-bottom:16px;border-top:4px solid var(--mc,var(--accent))}
+.gc-pct{font-family:var(--mono);font-size:52px;font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.gc-letter{display:inline-grid;place-items:center;min-width:46px;height:46px;padding:0 12px;border-radius:12px;background:var(--mc,var(--accent));color:#fff;font-size:26px;font-weight:800;font-family:var(--mono);margin-left:12px;vertical-align:middle}
+.gc-hero .cap{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.gc-bar{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin:16px auto 4px;max-width:420px}
+.gc-bar i{display:block;height:100%;border-radius:99px;transition:width .3s ease,background .3s ease}
+.gc-sub{color:var(--muted);font-size:13px;margin-top:10px}
+.gc-sub b{color:var(--ink)}
+
+.gc-cat{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow:hidden}
+.gc-head{display:flex;align-items:center;gap:10px;padding:13px 15px;flex-wrap:wrap}
+.gc-name{font-weight:700;font-size:15.5px}
+.gc-weight{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 8px}
+.gc-catpct{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+.gc-body{padding:0 15px 15px}
+.gc-note{font-size:12.5px;color:var(--muted);margin:0 0 10px;display:flex;gap:6px;align-items:flex-start}
+.gc-note.ec{color:var(--hint)}
+.gc-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px}
+.gc-item{display:flex;flex-direction:column;gap:3px}
+.gc-item label{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.gc-inwrap{position:relative;display:flex;align-items:center}
+.gc-in{width:100%;font-family:var(--sans);font-size:15px;padding:9px 26px 9px 11px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);outline:none;transition:.13s;font-variant-numeric:tabular-nums}
+.gc-in:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.gc-in.touched{border-color:var(--accent);font-weight:600}
+.gc-inwrap::after{content:"%";position:absolute;right:10px;color:var(--faint);font-size:13px;pointer-events:none}
+.gc-single{max-width:180px}
+details.gc-collapse>summary{list-style:none;cursor:pointer;font-size:12.5px;color:var(--accent);font-weight:600;padding:2px 0}
+details.gc-collapse>summary::-webkit-details-marker{display:none}
+details.gc-collapse>summary::before{content:"▸ ";color:var(--faint)}
+details.gc-collapse[open]>summary::before{content:"▾ "}
+details.gc-collapse>summary .hint{color:var(--muted);font-weight:400}
+.gc-collapse .gc-items{margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <span class="kicker">BIOL 40B · Foothill</span>
+      <h1>Grade Calculator</h1>
+    </div>
+    <button class="iconbtn" id="theme" title="Toggle light / dark" aria-label="Toggle theme">◐</button>
+  </header>
+
+  <nav class="pagenav" aria-label="Trainer sections">
+    <a href="index.html" class="pnav"><span class="ic">🧠</span> Model practical</a>
+    <a href="cranial.html" class="pnav"><span class="ic">🧬</span> Cranial nerves</a>
+    <a href="histology.html" class="pnav"><span class="ic">🔬</span> Histology</a>
+    <a href="lecture.html" class="pnav"><span class="ic">📝</span> Lecture Exam 1</a>
+    <a href="objective.html" class="pnav"><span class="ic">🎯</span> Objective Scope</a>
+    <a href="lecture-cram.html" class="pnav"><span class="ic">📋</span> Lecture cram</a>
+    <a href="cram.html" class="pnav"><span class="ic">⚡</span> Practical cram</a>
+    <a href="grade.html" class="pnav on" aria-current="page"><span class="ic">🧮</span> Grade calc</a>
+  </nav>
+
+  <section class="gc-hero" id="hero">
+    <div class="cap">Projected overall grade</div>
+    <div><span class="gc-pct" id="gc-pct">100.0%</span><span class="gc-letter" id="gc-letter">A</span></div>
+    <div class="gc-bar"><i id="gc-bar" style="width:100%"></i></div>
+    <p class="gc-sub">Enter only what you want to estimate — <b>every blank field counts as 100%</b>. The 2 lecture exams
+      include the <b>+30 extra-credit points</b>. <button class="btn btn-ghost" id="reset" style="padding:6px 12px;font-size:13px;margin-left:6px">Reset all</button></p>
+  </section>
+
+  <p class="gc-note" style="padding:0 4px" id="topnote">💡 Example: type <b>&nbsp;68&nbsp;</b> in Exam 1 and <b>&nbsp;45&nbsp;</b> in Quiz 1 to see the hit to your overall grade.</p>
+
+  <main id="cats"></main>
+
+  <section class="card pad" style="margin-top:14px">
+    <p class="hero-note" style="margin:0;font-size:13px">How the grade is weighted (per the syllabus): Lecture Exams 25% · Lab Exams 25% · Labs 15% ·
+      Pre-labs 5% · Quizzes 5% · Assignments 15% · Final Exam 10%. Grades aren't curved. Scale: A ≥ 90, B ≥ 80,
+      C ≥ 70, D ≥ 60, F < 60. With full extra credit the max possible works out to about <b>103.75%</b>.</p>
+  </section>
+
+  <p class="foot">Unofficial estimate · not affiliated with the instructor · check Canvas for official grades</p>
+</div>
+
+<script src="grade.js"></script>
+</body>
+</html>
