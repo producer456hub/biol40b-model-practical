@@ -1,45 +1,12 @@
-# BIOL 40B — Model Practical Trainer
+# Moved → producer456hub/biol40b
 
-A browser-based practice practical for the **lab models** (Neuron, Brain, Eye, Ear, Cochlea). It mirrors the real
-exam: you're shown a model with numbers tagged on it and, for each number, you type **both the structure's name and
-its function**. Names are graded strictly on spelling (with a "check your spelling" hint when you're close); functions
-just need a genuine attempt and the model answer is always shown so you can learn it. Anything you miss comes back,
-round after round, until every structure is cleared.
+The Unit 1 trainers (Lecture Exam 1, model practical, cranial nerves) now lives inside the combined **BIOL 40B Study Trainers** site, together with every other
+trainer for the class:
 
-**Play it:** open `index.html` (or the GitHub Pages link).
+### **https://producer456hub.github.io/biol40b/**
 
-## Coverage — 56 structures
-| Model | Structures |
-|-------|-----------|
-| Neuron | 10 |
-| Brain (sagittal) | 12 |
-| Eye | 14 |
-| Ear | 13 |
-| Cochlea | 7 |
+This trainer specifically: **https://producer456hub.github.io/biol40b/exam1/**
 
-Every name and function is transcribed from the class answer keys.
-
-## Built for retention
-- **Active recall** — you type the answer from memory, not multiple choice.
-- **Both name + function** every time — elaborative encoding beats memorizing a label alone.
-- **A learn card after every answer** pairs the correct name with its function for a clean encoding moment.
-- **Color-coded models** (neuron/brain red, eye green, ear/cochlea blue) give each model a consistent visual identity.
-- **Retry until mastery** — missed structures re-queue each round until nothing is left, then "Take it again" reshuffles.
-
-## Grading rules
-- **Name:** strict. Case/punctuation normalized, real synonyms accepted (e.g. *eardrum* = *tympanic membrane*,
-  *hammer* = *malleus*). A near-miss gets one spelling nudge, then it's marked wrong.
-- **Function:** lax / self-check. Any genuine attempt is accepted; the model answer is always revealed so you can
-  check yourself. You must give a function to clear an item.
-
-## Files
-| File | Purpose |
-|------|---------|
-| `index.html` | page structure |
-| `styles.css` | model-practical visual identity, light + dark, per-model color |
-| `app.js` | engine: dual-field grading, spelling tolerance, retry-until-mastery |
-| `data.js` | question bank (names, synonyms, functions) from the answer keys |
-| `images/` | upright crops of each numbered model photo |
-| `build/` | image-prep scripts |
-
-*Study aid — not for distribution. Model photos are from the class answer keys.*
+Every page that used to be here still answers — each old filename now serves a redirect to the same
+page in its new home, so any link already shared with classmates keeps working. The source moved to
+the `biol40b` repo; the full history of this one is still in this repo's git log.
